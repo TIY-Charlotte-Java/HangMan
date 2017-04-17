@@ -14,7 +14,7 @@ import java.util.Scanner;
 @Service
 public class WordService {
     private List<String> getWordsFromFile() {
-        File f = new File(getClass().getClassLoader().getResource("words.txt").getFile());
+        File f = new File("words.txt");
         Scanner fileScanner = null;
         List<String> words = new ArrayList<>();
 
