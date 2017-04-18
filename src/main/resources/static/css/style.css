@@ -2,7 +2,17 @@ body {
     font-family: monospace;
 }
 
+.game {
+    width: 500px;
+    margin: 0px auto;
+}
+
+.letter-input {
+    width: 1em;
+}
+
 .word {
     letter-spacing: 8px;
     font-size: 50px;
+    display: block;
 }

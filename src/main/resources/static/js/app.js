@@ -60,4 +60,6 @@ window.onload = function () {
             guess.disabled = true;
         }
     }
+
+    newGame.dispatchEvent(new MouseEvent("click"));
 };
