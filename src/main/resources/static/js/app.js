@@ -27,9 +27,9 @@ window.addEventListener('load', () => {
 
     letter.addEventListener('keyup', (e) => {
         if (e.keyCode === 13 && e.target.value !== '') {
-            let me = new MouseEvent("click");
+            let me = new MouseEvent('click');
 
-            if (word.innerText.indexOf("_") === -1) {
+            if (word.innerText.indexOf('_') === -1) {
                 newGame.dispatchEvent(me);
             } else {
                 guess.dispatchEvent(me);
@@ -62,6 +62,6 @@ window.addEventListener('load', () => {
         }
     }
 
-    newGame.dispatchEvent(new MouseEvent("click"));
+    newGame.dispatchEvent(new MouseEvent('click'));
     letter.focus();
 });
