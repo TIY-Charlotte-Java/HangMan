@@ -1,15 +1,16 @@
 package com.example.models;
 
 import com.example.services.WordService;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Ben on 4/14/17.
  */
 public class Game {
-    @JsonIgnore
     private String word;
-    private String currentWord;
+    private Set<Character> guesses = new HashSet<>();
     private int remainingGuesses;
 
     private Game(String word) {
@@ -21,24 +22,30 @@ public class Game {
             sb.append("_");
         }
 
-        currentWord = sb.toString();
         this.remainingGuesses = 7;
     }
 
     public String getWord() {
-        return word;
+        StringBuilder sb = new StringBuilder(word);
+
+        for (int i = 0;i < word.length();i++) {
+            if (!guesses.contains(sb.charAt(i))) {
+                sb.setCharAt(i, '_');
+            }
+        }
+        return sb.toString();
     }
 
     public void setWord(String word) {
         this.word = word;
     }
 
-    public String getCurrentWord() {
-        return currentWord;
+    public Set<Character> getGuesses() {
+        return guesses;
     }
 
-    public void setCurrentWord(String currentWord) {
-        this.currentWord = currentWord;
+    public void setGuesses(Set<Character> guesses) {
+        this.guesses = guesses;
     }
 
     public int getRemainingGuesses() {
@@ -49,23 +56,13 @@ public class Game {
         this.remainingGuesses = remainingGuesses;
     }
 
-    public String guessLetter(String letter) {
+    public void guessLetter(String letter) {
         if (word.indexOf(letter) == -1) {
             // letter not found
             remainingGuesses--;
-        } else {
-            StringBuilder sb = new StringBuilder(currentWord);
-
-            for (int i = 0;i < word.length();i++) {
-                if (word.substring(i, i + 1).equalsIgnoreCase(letter)) {
-                    sb.setCharAt(i, letter.charAt(0));
-                }
-            }
-
-            currentWord = sb.toString();
         }
 
-        return currentWord;
+        guesses.add(letter.charAt(0));
     }
 
     public static Game createGame(WordService service) {

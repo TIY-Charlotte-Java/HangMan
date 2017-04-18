@@ -3,6 +3,7 @@ window.onload = function () {
     let letter    = document.querySelector('.letter-input');
     let newGame   = document.querySelector('.new-game');
     let guess     = document.querySelector('.guess');
+    let guesses     = document.querySelector('.guesses');
     let remaining = document.querySelector('.remaining');
     let status    = document.querySelector('.status');
 
@@ -13,6 +14,7 @@ window.onload = function () {
 
         guess.disabled = false;
         status.innerText = '';
+        guesses.innerText = '';
     });
 
     guess.addEventListener('click', (e) => {
@@ -22,13 +24,14 @@ window.onload = function () {
     });
 
     function updateWordText(data) {
-        word.innerText = data.currentWord;
+        word.innerText = data.word;
         remaining.innerText = data.remainingGuesses;
+        guesses.innerText = data.guesses;
 
         if (data.remainingGuesses === 0) {
             status.innerText = 'Game Over. The dude is hanged.';
             guess.disabled = true;
-        } else if (data.currentWord.indexOf("_") === -1) {
+        } else if (data.word.indexOf("_") === -1) {
             status.innerText = 'YEAH YOU TOTALLY WON YES';
             guess.disabled = true;
         }
