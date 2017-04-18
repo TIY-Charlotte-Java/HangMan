@@ -19,16 +19,20 @@ window.onload = function () {
 
     guess.addEventListener('click', (e) => {
         fetch('/guess-letter', { method: 'POST', credentials: 'include', body: letter.value }).then(function (response) {
-            response.json().then(updateWordText).then(() => letter.focus());
+            response.json().then(updateWordText).then((e) => { letter.focus });
 
         });
     });
 
     letter.addEventListener('keyup', (e) => {
-        if (e.keyCode === 13) {
+        if (e.keyCode === 13 && e.target.value !== '') {
             let me = new MouseEvent("click");
 
-            guess.dispatchEvent(me);
+            if (word.innerText.indexOf("_") === -1) {
+                newGame.dispatchEvent(me);
+            } else {
+                guess.dispatchEvent(me);
+            }
 
             select(letter);
         }
