@@ -13,6 +13,16 @@ import java.util.Scanner;
  */
 @Service
 public class WordService {
+    private static List<String> words;
+
+    public String getRandomWord() {
+        if (words == null) {
+            words = getWordsFromFile();
+        }
+
+        return words.get((int)(Math.random() * words.size()));
+    }
+
     private List<String> getWordsFromFile() {
         File f = new File("words.txt");
         Scanner fileScanner = null;
@@ -31,11 +41,5 @@ public class WordService {
         }
 
         return words;
-    }
-
-    public String getRandomWord() {
-        List<String> words = getWordsFromFile();
-
-        return words.get((int)(Math.random() * words.size()));
     }
 }
