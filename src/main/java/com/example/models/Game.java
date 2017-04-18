@@ -26,6 +26,10 @@ public class Game {
     }
 
     public String getWord() {
+        if (remainingGuesses == 0) {
+            return word;
+        }
+
         StringBuilder sb = new StringBuilder(word);
 
         for (int i = 0;i < word.length();i++) {
