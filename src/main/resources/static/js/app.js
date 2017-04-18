@@ -1,4 +1,4 @@
-window.onload = function () {
+window.addEventListener('load', () => {
     let word      = document.querySelector('.word');
     let letter    = document.querySelector('.letter-input');
     let newGame   = document.querySelector('.new-game');
@@ -18,10 +18,11 @@ window.onload = function () {
     });
 
     guess.addEventListener('click', (e) => {
-        fetch('/guess-letter', { method: 'POST', credentials: 'include', body: letter.value }).then(function (response) {
-            response.json().then(updateWordText).then((e) => { letter.focus });
-
-        });
+        if (letter.value !== '') {
+            fetch('/guess-letter', { method: 'POST', credentials: 'include', body: letter.value }).then(function (response) {
+                response.json().then(updateWordText).then((e) => { letter.focus });
+            });
+        }
     });
 
     letter.addEventListener('keyup', (e) => {
@@ -63,4 +64,4 @@ window.onload = function () {
 
     newGame.dispatchEvent(new MouseEvent("click"));
     letter.focus();
-};
+});
