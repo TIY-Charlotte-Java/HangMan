@@ -61,7 +61,7 @@ public class Game {
     }
 
     public void guessLetter(String letter) {
-        if (word.indexOf(letter) == -1) {
+        if (word.indexOf(letter) == -1 && !guesses.contains(letter.charAt(0))) {
             // letter not found
             remainingGuesses--;
         }

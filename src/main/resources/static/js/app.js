@@ -62,4 +62,5 @@ window.onload = function () {
     }
 
     newGame.dispatchEvent(new MouseEvent("click"));
+    letter.focus();
 };
