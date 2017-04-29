@@ -24,21 +24,21 @@ public class WordService {
     }
 
     private List<String> getWordsFromFile() {
-        File f = new File("words.txt");
-        Scanner fileScanner = null;
-        List<String> words = new ArrayList<>();
+            File f = new File("words.txt");
+            Scanner fileScanner = null;
+            List<String> words = new ArrayList<>();
 
-        try {
-            fileScanner = new Scanner(f);
-        } catch (FileNotFoundException e) {
-            System.err.println("Words file not found.");
-        }
-
-        if (fileScanner != null) {
-            while (fileScanner.hasNext()) {
-                words.add(fileScanner.nextLine());
+            try {
+                fileScanner = new Scanner(f);
+            } catch (FileNotFoundException e) {
+                System.err.println("Words file not found.");
             }
-        }
+
+            if (fileScanner != null) {
+                while (fileScanner.hasNext()) {
+                    words.add(fileScanner.nextLine());
+                }
+            }
 
         return words;
     }

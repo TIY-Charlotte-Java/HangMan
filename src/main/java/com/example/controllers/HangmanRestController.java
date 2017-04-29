@@ -34,4 +34,9 @@ public class HangmanRestController {
 
         return g;
     }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/game")
+    public Game getGame(HttpSession session) {
+        return (Game)session.getAttribute("game");
+    }
 }

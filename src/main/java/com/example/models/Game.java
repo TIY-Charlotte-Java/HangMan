@@ -22,7 +22,7 @@ public class Game {
             sb.append("_");
         }
 
-        this.remainingGuesses = 7;
+        this.remainingGuesses = 6;
     }
 
     public String getWord() {
@@ -72,5 +72,19 @@ public class Game {
     public static Game createGame(WordService service) {
         // lookup word
         return new Game(service.getRandomWord());
+    }
+
+    public String getHangmanStatus() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format(",----------,\n"));
+        sb.append(String.format("|          |\n"));
+        sb.append(String.format("|          %s\n", remainingGuesses < 6 ? "o" : ""));
+        sb.append(String.format("|         %s%s%s\n", remainingGuesses < 4 ? "/" : " ", remainingGuesses < 5 ? "|" : "", remainingGuesses < 3 ? "\\" : ""));
+        sb.append(String.format("|         %s %s\n", remainingGuesses < 2 ? "/" : "", remainingGuesses < 1 ? "\\" : ""));
+        sb.append(String.format("|\n"));
+        sb.append(String.format("|\n"));
+
+        return sb.toString();
     }
 }

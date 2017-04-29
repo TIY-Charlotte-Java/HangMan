@@ -6,6 +6,7 @@ window.addEventListener('load', () => {
     let guesses   = document.querySelector('.guesses');
     let remaining = document.querySelector('.remaining');
     let status    = document.querySelector('.status');
+    let hangdude  = document.querySelector('.dude');
 
     newGame.addEventListener('click', (e) => {
         fetch('/new-game', { method: 'POST', credentials: 'include' }).then(function (response) {
@@ -19,7 +20,7 @@ window.addEventListener('load', () => {
 
     guess.addEventListener('click', (e) => {
         if (letter.value !== '') {
-            fetch('/guess-letter', { method: 'POST', credentials: 'include', body: letter.value }).then(function (response) {
+            fetch('/guess-letter', { method: 'POST', credentials: 'include', body: letter.value }).then(response => {
                 response.json().then(updateWordText).then((e) => { letter.focus });
             });
         }
@@ -60,8 +61,21 @@ window.addEventListener('load', () => {
             status.innerText = 'YEAH YOU TOTALLY WON YES';
             guess.disabled = true;
         }
+
+        hangdude.innerText = data.hangmanStatus;
     }
 
-    newGame.dispatchEvent(new MouseEvent('click'));
+
+    fetch('/game', { credentials: 'include' }).then(response => {
+        response.json().then(data => {
+            if (data === '') {
+                newGame.dispatchEvent(new MouseEvent('click'));
+            } else {
+                updateWordText(data);
+                guess.disabled = false;
+            }
+        });
+    });
+
     letter.focus();
 });
