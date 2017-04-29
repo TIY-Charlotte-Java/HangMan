@@ -4,6 +4,7 @@ import com.example.services.WordService;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by Ben on 4/14/17.
@@ -86,5 +87,13 @@ public class Game {
         sb.append(String.format("|\n"));
 
         return sb.toString();
+    }
+
+    public void guessWord(String word) {
+        if (word.equals(this.word)) {
+            guesses = this.word.chars().mapToObj(i -> (char)i).collect(Collectors.toSet());
+        } else {
+            remainingGuesses = 0;
+        }
     }
 }

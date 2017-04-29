@@ -27,10 +27,19 @@ public class HangmanRestController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/guess-letter")
-    public Game updategame(HttpSession session, @RequestBody String letter) {
+    public Game guessLetter(HttpSession session, @RequestBody String letter) {
         Game g = (Game)session.getAttribute("game");
 
         g.guessLetter(letter);
+
+        return g;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/guess-word")
+    public Game guessWord(HttpSession session, @RequestBody String word) {
+        Game g = (Game)session.getAttribute("game");
+
+        g.guessWord(word);
 
         return g;
     }

@@ -3,6 +3,7 @@ window.addEventListener('load', () => {
     let letter    = document.querySelector('.letter-input');
     let newGame   = document.querySelector('.new-game');
     let guess     = document.querySelector('.guess');
+    let guessWord = document.querySelector('.guess-whole');
     let guesses   = document.querySelector('.guesses');
     let remaining = document.querySelector('.remaining');
     let status    = document.querySelector('.status');
@@ -13,7 +14,7 @@ window.addEventListener('load', () => {
             response.json().then(updateWordText);
         });
 
-        guess.disabled = false;
+        setGuessesEnabled(true);
         status.innerText = '';
         guesses.innerText = '';
     });
@@ -26,17 +27,24 @@ window.addEventListener('load', () => {
         }
     });
 
-    letter.addEventListener('keyup', (e) => {
-        if (e.keyCode === 13 && e.target.value !== '') {
-            let me = new MouseEvent('click');
+    guessWord.addEventListener('click', (e) => {
+        if (letter.value !== '') {
+            fetch('/guess-word', { method: 'POST', credentials: 'include', body: letter.value }).then(response => {
+                response.json().then(updateWordText).then((e) => { letter.focus });
+            });
+        }
+    });
 
+    letter.addEventListener('keyup', (e) => {
+        let me = new MouseEvent('click');
+
+        if (e.keyCode === 13) {
             if (word.innerText.indexOf('_') === -1) {
                 newGame.dispatchEvent(me);
-            } else {
+            } else if (e.target.value !== '') {
                 guess.dispatchEvent(me);
+                empty(letter);
             }
-
-            empty(letter);
         }
     });
 
@@ -48,17 +56,21 @@ window.addEventListener('load', () => {
         element.value = '';
     }
 
+    function setGuessesEnabled(enabled) {
+        guess.disabled = !enabled;
+        guessWord.disabled = !enabled;
+    }
+
     function updateWordText(data) {
         word.innerText = data.word;
-        remaining.innerText = data.remainingGuesses;
         guesses.innerText = data.guesses;
 
         if (data.remainingGuesses === 0) {
             status.innerText = 'Game Over. The dude is hanged.';
-            guess.disabled = true;
+            setGuessesEnabled(true);
         } else if (data.word.indexOf("_") === -1) {
             status.innerText = 'YEAH YOU TOTALLY WON YES';
-            guess.disabled = true;
+            setGuessesEnabled(true);
         }
 
         hangdude.innerText = data.hangmanStatus;
@@ -71,7 +83,7 @@ window.addEventListener('load', () => {
                 newGame.dispatchEvent(new MouseEvent('click'));
             } else {
                 updateWordText(data);
-                guess.disabled = false;
+                setGuessesEnabled(true);
             }
         });
     });
