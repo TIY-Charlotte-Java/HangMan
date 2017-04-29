@@ -36,17 +36,16 @@ window.addEventListener('load', () => {
                 guess.dispatchEvent(me);
             }
 
-            select(letter);
+            empty(letter);
         }
     });
 
     letter.addEventListener('focus', (e) => {
-        select(letter);
+        empty(letter);
     });
 
-    function select(element) {
-        element.selectionStart = 0;
-        element.selectionEnd = element.value.length;
+    function empty(element) {
+        element.value = '';
     }
 
     function updateWordText(data) {
